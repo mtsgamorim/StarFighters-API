@@ -23,8 +23,10 @@ export async function battleService(user1: string, user2: string) {
     battleRepository.createUser(user2);
     user2InDB = await battleRepository.findUser(user2);
   }
-
-  if (infoUser1.stargazers_count === infoUser2.stargazers_count) {
+  console.log(infoUser1.data[0].stargazers_count);
+  if (
+    infoUser1.data[0].stargazers_count === infoUser2.data[0].stargazers_count
+  ) {
     battleRepository.updateUser(user1, "draws");
     battleRepository.updateUser(user2, "draws");
     return {
@@ -32,7 +34,9 @@ export async function battleService(user1: string, user2: string) {
       loser: null,
       draw: true,
     };
-  } else if (infoUser1.stargazers_count > infoUser2.stargazers_count) {
+  } else if (
+    infoUser1.data[0].stargazers_count > infoUser2.data[0].stargazers_count
+  ) {
     battleRepository.updateUser(user1, "wins");
     battleRepository.updateUser(user2, "losses");
     return {
